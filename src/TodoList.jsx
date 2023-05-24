@@ -13,10 +13,11 @@ export const TodoList = () => {
     error,
   } = useQuery('todos', getTodos, {
     select: (data) => data.sort((a, b) => b.id - a.id),
+    //! disable cache if needed
+    cacheTime: 0,
   });
 
   //? add single todo with mutation(change in todos / data)
-
   const addTodoMutation = useMutation(createTodo, {
     onSuccess: () => {
       //! invalidate the cache and refetch the todos
@@ -65,8 +66,8 @@ export const TodoList = () => {
     </form>
   );
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>{error.message}</p>;
+  if (isLoading) return <p style={{ textAlign: 'center' }}>Loading...</p>;
+  if (isError) return <p style={{ textAlign: 'center' }}>{error.message}</p>;
 
   return (
     <div>
